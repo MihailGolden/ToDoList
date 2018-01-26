@@ -10,7 +10,6 @@ namespace ToDoList.Controllers
     {
         public ActionResult Index()
         {
-            int testInt = 10;
             return View();
         }
 
