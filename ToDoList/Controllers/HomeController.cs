@@ -12,7 +12,7 @@ namespace ToDoList.Controllers
         {
             int C1 = 0;
             int branch1 = 0;
-            int B1 = 1;
+            int B1 = 2;
             return View();
         }
 
