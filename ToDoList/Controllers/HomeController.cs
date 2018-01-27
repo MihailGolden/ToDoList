@@ -10,6 +10,7 @@ namespace ToDoList.Controllers
     {
         public ActionResult Index()
         {
+            int C1 = 0;
             return View();
         }
 
