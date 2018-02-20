@@ -6,15 +6,18 @@ using System.Web;
 
 namespace ToDoList.Models
 {
-    public class Task
+    public class JobTask
     {
         [Key]
         public int Id { get; set; }
-        [Required,]
+
         public string Name { get; set; }
-        [Required]
-        public int Status { get; set; }
-        [Required]
+
+        public bool Status { get; set; }
+
+
         public int ProjectId { get; set; }
+        public virtual Project Project { get; set; }
     }
+
 }
