@@ -11,107 +11,112 @@ using ToDoList.Models;
 
 namespace ToDoList.Controllers
 {
-    public class ToDoController : Controller
+    public class JobTasksController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: ToDo
+        // GET: JobTasks
         public async Task<ActionResult> Index()
         {
-            return View(await db.Projects.ToListAsync());
+            var tasks = db.Tasks.Include(j => j.Project);
+            return View(await tasks.ToListAsync());
         }
 
-        // GET: ToDo/Details/5
+        // GET: JobTasks/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            JobTask jobTask = await db.Tasks.FindAsync(id);
+            if (jobTask == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(jobTask);
         }
 
-        // GET: ToDo/Create
+        // GET: JobTasks/Create
         public ActionResult Create()
         {
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             return View();
         }
 
-        // POST: ToDo/Create
+        // POST: JobTasks/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Status,ProjectId")] JobTask jobTask)
         {
             if (ModelState.IsValid)
             {
-                db.Projects.Add(project);
+                db.Tasks.Add(jobTask);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(project);
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", jobTask.ProjectId);
+            return View(jobTask);
         }
 
-        // GET: ToDo/Edit/5
+        // GET: JobTasks/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            JobTask jobTask = await db.Tasks.FindAsync(id);
+            if (jobTask == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", jobTask.ProjectId);
+            return View(jobTask);
         }
 
-        // POST: ToDo/Edit/5
+        // POST: JobTasks/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Status,ProjectId")] JobTask jobTask)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
+                db.Entry(jobTask).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(project);
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", jobTask.ProjectId);
+            return View(jobTask);
         }
 
-        // GET: ToDo/Delete/5
+        // GET: JobTasks/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            JobTask jobTask = await db.Tasks.FindAsync(id);
+            if (jobTask == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(jobTask);
         }
 
-        // POST: ToDo/Delete/5
+        // POST: JobTasks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Project project = await db.Projects.FindAsync(id);
-            db.Projects.Remove(project);
+            JobTask jobTask = await db.Tasks.FindAsync(id);
+            db.Tasks.Remove(jobTask);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

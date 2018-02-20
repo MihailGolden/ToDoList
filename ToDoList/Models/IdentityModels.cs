@@ -25,9 +25,16 @@ namespace ToDoList.Models
         {
         }
 
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<JobTask> Tasks { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<ToDoList.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
+
+
 }

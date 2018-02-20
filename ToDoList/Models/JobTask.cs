@@ -10,12 +10,10 @@ namespace ToDoList.Models
     {
         [Key]
         public int Id { get; set; }
-
         public string Name { get; set; }
-
+        public DateTime? Deadline { get; set; }
         public bool Status { get; set; }
-
-
+        public int Priority { get; set; }
         public int ProjectId { get; set; }
         public virtual Project Project { get; set; }
     }
