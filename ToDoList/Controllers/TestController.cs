@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,8 +18,12 @@ namespace ToDoList.Controllers
             using(ApplicationDbContext db = new ApplicationDbContext())
             {
                 string users = "";
-                return users += db.Users.FirstOrDefault().;
+                return users += db.Users.FirstOrDefault().ToString();
                 //return "users";
+
+                //IdentityRole role = new IdentityRole("newrole");
+                //RoleManager man = new RoleManager();
+
             }
         }
     }
