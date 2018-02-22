@@ -193,14 +193,23 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobTasksController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ToDoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802201955545_InitialCreate.cs" />
+    <Compile Include="Migrations\201802201955545_InitialCreate.Designer.cs">
+      <DependentUpon>201802201955545_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802221820215_MigrateDB.cs" />
+    <Compile Include="Migrations\201802221820215_MigrateDB.Designer.cs">
+      <DependentUpon>201802221820215_MigrateDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Priority.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\JobTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -275,10 +284,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\ToDo\Create.cshtml" />
-    <Content Include="Views\ToDo\Delete.cshtml" />
-    <Content Include="Views\ToDo\Details.cshtml" />
-    <Content Include="Views\ToDo\Edit.cshtml" />
     <Content Include="Views\ToDo\Index.cshtml" />
     <Content Include="Views\JobTasks\Create.cshtml" />
     <Content Include="Views\JobTasks\Delete.cshtml" />
@@ -301,6 +306,14 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201802201955545_InitialCreate.resx">
+      <DependentUpon>201802201955545_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802221820215_MigrateDB.resx">
+      <DependentUpon>201802221820215_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -58,6 +58,8 @@ namespace ToDoList.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            if (Request.IsAuthenticated)
+                return RedirectToAction("Index", "ToDo");
             return View();
         }
 
@@ -139,6 +141,8 @@ namespace ToDoList.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            if (Request.IsAuthenticated)
+                return RedirectToAction("Index", "ToDo");
             return View();
         }
 
@@ -163,7 +167,7 @@ namespace ToDoList.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "ToDo");
                 }
                 AddErrors(result);
             }
@@ -392,7 +396,7 @@ namespace ToDoList.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "ToDo");
         }
 
         //

@@ -15,12 +15,51 @@ namespace ToDoList.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: JobTasks
-        public async Task<ActionResult> Index()
+        [HttpPost]
+        public ActionResult Add(int projectId, string name)
         {
-            var tasks = db.Tasks.Include(j => j.Project);
-            return View(await tasks.ToListAsync());
+            var tempTask = db.JobTasks.Where(t => t.ProjectId == projectId).OrderByDescending(t => t.Priority).FirstOrDefault();
+            int priority;
+            if(tempTask == null)
+            {
+                priority = 1;
+            }
+            else
+            {
+                priority = tempTask.Priority + 1;
+            }
+            JobTask task = new JobTask { Name = name, ProjectId = projectId, Priority = priority };
+            db.JobTasks.Add(task);
+            return Json(task);
         }
+
+        [HttpPost]
+        public void Update(int taskId, string name)
+        {
+            JobTask task = db.JobTasks.Where(t => t.Id == taskId).FirstOrDefault();
+            task.Name = name;
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int taskId)
+        {
+
+            return View("Index", "ToDo");
+        }
+
+
+
+
+
+
+
+
+        //// GET: JobTasks
+        //public async Task<ActionResult> Index()
+        //{
+        //    var tasks = db.JobTasks.Include(j => j.Project);
+        //    return View(await tasks.ToListAsync());
+        //}
 
         // GET: JobTasks/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -29,7 +68,7 @@ namespace ToDoList.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobTask jobTask = await db.Tasks.FindAsync(id);
+            JobTask jobTask = await db.JobTasks.FindAsync(id);
             if (jobTask == null)
             {
                 return HttpNotFound();
@@ -53,7 +92,7 @@ namespace ToDoList.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Tasks.Add(jobTask);
+                db.JobTasks.Add(jobTask);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -69,7 +108,7 @@ namespace ToDoList.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobTask jobTask = await db.Tasks.FindAsync(id);
+            JobTask jobTask = await db.JobTasks.FindAsync(id);
             if (jobTask == null)
             {
                 return HttpNotFound();
@@ -102,7 +141,7 @@ namespace ToDoList.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobTask jobTask = await db.Tasks.FindAsync(id);
+            JobTask jobTask = await db.JobTasks.FindAsync(id);
             if (jobTask == null)
             {
                 return HttpNotFound();
@@ -115,8 +154,8 @@ namespace ToDoList.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            JobTask jobTask = await db.Tasks.FindAsync(id);
-            db.Tasks.Remove(jobTask);
+            JobTask jobTask = await db.JobTasks.FindAsync(id);
+            db.JobTasks.Remove(jobTask);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

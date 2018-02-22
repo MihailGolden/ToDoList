@@ -26,7 +26,7 @@ namespace ToDoList.Models
         }
 
         public DbSet<Project> Projects { get; set; }
-        public DbSet<JobTask> Tasks { get; set; }
+        public DbSet<JobTask> JobTasks { get; set; }
 
         public static ApplicationDbContext Create()
         {

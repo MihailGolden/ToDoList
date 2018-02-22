@@ -10,13 +10,17 @@ namespace ToDoList.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         public string Name {get; set; }
+
+        public virtual ICollection<JobTask> JobTasks { get; set; }
+
         public virtual ApplicationUser User { get; set; }
-        public virtual ICollection<JobTask> Tasks { get; set; }
+
         public Project()
         {
-            Tasks = new List<JobTask>();
+            JobTasks = new List<JobTask>();
         }
     }
 }
