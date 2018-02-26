@@ -94,7 +94,7 @@ namespace ToDoList.Controllers
         }
 
         //
-        // GET: /Account/VerifyCodeвапрвар
+        // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
