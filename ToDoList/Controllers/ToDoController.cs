@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ToDoList.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ToDoController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -20,6 +20,7 @@ namespace ToDoList.Controllers
         // GET: ToDo
         public ActionResult Index()
         {
+            
             //var users = db.Users.First().ToString();
             //return users;
             return View();

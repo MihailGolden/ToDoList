@@ -9,18 +9,25 @@
 
 </head>
 <body>
-   
+    <div class="navbar-fixed-top text-right">
+        <div class="container">
+
+                @Html.Partial("_LoginPartial")
+
+        </div>
+    </div>
+
     @RenderBody()
 
 
     <footer>
         &copy;Ruby Garage
     </footer>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/bundles/jshelpers")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jshelpers")
 </body>
 </html>
 

@@ -396,7 +396,7 @@ namespace ToDoList.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "ToDo");
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -453,7 +453,7 @@ namespace ToDoList.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "ToDo");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

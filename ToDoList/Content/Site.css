@@ -24,18 +24,36 @@ header {
     
 }
 
+.btn {
+    background-color:#5aa4f5;
+    color:white;
+    font-weight:bold;
+}
+
+a, .navigate {
+    color:white;
+}
+
+.navigate {
+    color: white;
+    z-index:2;
+}
+
 h1{
     color:dimgray;
     font-weight:bolder;
-    font-size:x-large;
+    font-size:xx-large;
+    margin: 20px;
 }
 
 h2 {
     color: dimgray;
     font-weight: bolder;
     font-size: medium;
-    margin: 0px;
+    margin-bottom: 30px;
 }
+
+юд
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
