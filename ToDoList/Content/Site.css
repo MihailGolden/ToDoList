@@ -1,349 +1,57 @@
-﻿@charset "utf-8";
-/* CSS Document */
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+﻿
 
-[class*="fontawesome-"]:before {
-    font-family: 'FontAwesome', sans-serif;
-}
 
-h1, h2 {
-    text-align: center;
-}
-
-.navbar-fixed-top {
-    background: inherit;
-    border: none;
-    border-radius: 0px;
-}
+/*styles*/
+html, body {
+    background: linear-gradient(lightgray, orange);
+    height: 100%;
+   }
 
 body {
-    background-image: url('background.png');
-    background-repeat: no-repeat;
-    overflow-x: hidden;
-    padding-top: 50px;
-    padding-bottom: 20px;
-    background-size: cover;
-    font-family: 'Nunito', sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
-.name {
-    font-size: 18px;
+footer {
+    position: fixed;
+    bottom:10px;
+    width: 100%;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+header {
+    
 }
 
-.great {
-    font-size: 14px;
+h1{
+    color:dimgray;
+    font-weight:bolder;
+    font-size:x-large;
 }
 
+h2 {
+    color: dimgray;
+    font-weight: bolder;
+    font-size: medium;
+    margin: 0px;
+}
+
+/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
 .dl-horizontal dt {
     white-space: normal;
 }
 
-#loginForm {
-    background-color: #5183BE;
-    border-radius: 10px;
-    margin-top: 15%;
-    margin: 0 auto;
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
 }
-
-    #loginForm h2 {
-        text-align: center;
-        padding-bottom: 20px;
-        padding-top: 20px;
-    }
-
-
-    #loginForm p {
-        color: white;
-        padding-bottom: 20px;
-        display: flex;
-        align-items: center;
-    }
-
-.task-options span:hover {
-    color: green
-}
-
-.task-options {
-    display: none;
-}
-
-.task:hover .task-options {
-    display: inline;
-}
-
-.list-options span:hover {
-    color: lightseagreen;
-}
-
-.list-options {
-    display: none;
-}
-
-.list:hover .list-options {
-    display: inline;
-}
-
-.list {
-    cursor: pointer;
-    box-shadow: -2px 0 15px -5px #888, -2px 0 8px -5px #888;
-    background: linear-gradient(#5183BE,#375D9E);
-    height: 50px;
-    margin-top: 20px;
-    border-radius: 2px 2px 0 0;
-    border-bottom: none;
-}
-
-.col-xs-1 {
-    text-align: center;
-}
-
-.glyphicon-list {
-    font-size: 20px;
-    margin-top: 10px;
-    color: rgba(0,0,0,0.31);
-}
-
-.list-pencil, .list-trash {
-    font-size: 15px;
-    margin-top: 13px;
-    color: #98B0D2;
-}
-
-.doubleclicklist {
-    cursor: pointer;
-}
-
-.ListName {
-    color: white;
-    margin-top: 13px;
-    width: inherit;
-    border: none;
-    background-color: inherit;
-}
-
-*:focus {
-    outline: none;
-}
-
-.AddList {
-    margin-top: 10px;
-    text-align: center;
-}
-
-.btn-primary {
-    background: linear-gradient(#5183BE,#375D9E);
-    border: none;
-    /*text-shadow: 2px 2px 2px black;*/
-    font-weight: bold;
-    color: white;
-}
-
-.addtask {
-    padding-top: 2px;
-    /*border: 1px solid rgba(0,0,0,.1);*/
-    background: linear-gradient(#dce1e0,#cfcfcf);
-    height: 40px;
-    box-shadow: 0px 0 15px -5px #888, -2px 0 8px -5px #888;
-    border: 1px solid rgba(0,0,0,0.21);
-}
-
-.form {
-}
-
-.list-plus {
-    font-size: 20px;
-    color: #739681;
-    margin-top: 4px;
-    text-shadow: 0 1px 1px gray;
-}
-
-.addaspn {
-    font-size: 15px;
-    font-weight: bold;
-    color: #3C5478;
-    margin-top: 3px;
-    text-shadow: 0 1px 1px gray;
-}
-
-.AddTask {
-    margin-top: 2px;
-    background: linear-gradient(#78AF91,#5C9374);
-    height: 30px;
-    border: none;
-    border-radius: 0px 5px 5px 0px;
-    width: 95%;
-    overflow: hidden;
-}
-
-.AddTaskName {
-    margin-top: 2px;
-    border-radius: 0px;
-    border: 1px;
-    height: 30px;
-}
-
-    .AddTaskName:active {
-        outline: none;
-    }
-
-.task {
-    margin-top: -1px;
-    border: 1px solid rgba(0,0,0,0.33);
-    border-top: 1px solid rgba(0,0,0,0.1);
-    color: black;
-    background-color: white;
-    /*box-shadow: -2px 0 15px -5px #888, -2px 0 8px -5px #888;*/
-}
-
-    .task:last-child {
-        border-radius: 0px 0px 15px 15px;
-    }
-
-    .task:hover {
-        background-color: #FCFED5;
-    }
-
-.checked {
-    border-right-color: #f7d6d6;
-    border-right-style: double;
-    padding-top: 12px;
-    height: 50px;
-}
-
-.task:hover {
-    cursor: pointer;
-}
-
-.task-options {
-    border-left: 1px solid rgba(0,0,0,.1);
-    height: 50px;
-    color: #9b9a8d;
-    /*display: none;*/
-}
-
-.glyphicon-chevron-up {
-    font-size: 70%;
-    color: #999999;
-}
-
-.glyphicon-chevron-down {
-    font-size: 70%;
-    color: #999999;
-}
-
-.task-trash {
-    font-size: 70%;
-    color: #999999;
-}
-
-.task-pencil {
-    font-size: 70%;
-    color: #999999;
-}
-
-@media screen and (min-width: 1000px) {
-    .away {
-        display: none;
-    }
-}
-
-@media screen and (max-width: 1000px) {
-    .task-pencil {
-        display: none;
-    }
-
-    #main {
-        display: none;
-    }
-
-    body {
-        background: none;
-    }
-}
-
-}
-
-.priority {
-    display: inline-block;
-}
-
-.priority2 {
-    width: 100%;
-    text-align: center;
-}
-
-.priority-button-up {
-    height: 20px;
-    border: none;
-    text-align: center;
-    background: none;
-    color: rgba(0,0,0,0.31);
-}
-
-.priority-button-down {
-    height: 20px;
-    border: none;
-    text-align: center;
-    background: none;
-    color: rgba(0,0,0,0.31);
-}
-
-.task-trash-button {
-    border: none;
-    height: 20px;
-    background: none;
-    color: rgba(0,0,0,0.31);
-    padding-right: 20px;
-}
-
-.task-pencil-button {
-    border: none;
-    height: 20px;
-    background: none;
-    color: rgba(0,0,0,0.31);
-}
-
-td {
-    height: 50px;
-    width: 25%;
-    text-align: center;
-}
-
-.deadline-box {
-    padding-right: 2px;
-    text-align: right;
-    padding-top: 10px;
-    height: 40px;
-}
-
-.date {
-    border: none;
-    border-radius: 3px;
-    text-align: center;
-    margin-top: 4px;
-    max-width: 80px;
-    background: #5cb85c;
-    cursor: pointer;
-    color: white;
-}
-
-.TaskName {
-    width: 90%;
-    border: none;
-    padding-left: 11px;
-    margin-top: 13px;
-    background-color: inherit;
-}
-
-    .TaskName :disabled {
-        background-color: inherit;
-    }
-
-    .TaskName:hover {
-        cursor: pointer;
-    }

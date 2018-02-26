@@ -1,24 +1,26 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
+   
+    @Styles.Render("~/Content/css")
+
 </head>
 <body>
-    <nav>
-        <ul class="menu">
-            <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-            
-        </ul>
-    </nav>
+   
     @RenderBody()
+
+
     <footer>
-    @if (IsSectionDefined("Footer"))
-    {
-        @RenderSection("Footer")
-    }
+        &copy;Ruby Garage
     </footer>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jshelpers")
 </body>
 </html>
 
