@@ -8,18 +8,52 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ToDoList.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ToDoList.Controllers
 {
+    //[Authorize]
     public class ToDoController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ToDo
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.Projects.ToListAsync());
+            //var users = db.Users.First().ToString();
+            //return users;
+            return View();
         }
+
+        [HttpGet]
+        //public JsonResult Render()
+        //{
+        //    //string userId = User.Identity.GetUserId();
+        //    //ApplicationUser user = db.Users.FirstOrDefault(u => u.Id == userId);
+        //    //IEnumerable<Project> projectsList = db.Projects.Include(p => p.JobTasks).ToList().Where(u => u.User == user);
+        //    //foreach (Project project in projectsList)
+        //    //{
+        //    //    project.JobTasks = project.JobTasks.OrderBy(j => j.Priority).ToList();
+        //    //}
+        //    return Json(projectsList, JsonRequestBehavior.AllowGet);
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // GET: ToDo/Details/5
         public async Task<ActionResult> Details(int? id)

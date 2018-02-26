@@ -18,8 +18,36 @@ namespace ToDoList.Models
         }
     }
 
+    public class ToDoDbInitialiser: CreateDatabaseIfNotExists<ApplicationDbContext>
+    {
+        protected override void Seed(ApplicationDbContext db)
+        {
+            var rstore = new RoleStore<IdentityRole>(db);
+            var rmanager = new RoleManager<IdentityRole>(rstore);
+            rmanager.Create(new IdentityRole() { Name = "test" });
+
+            var store = new UserStore<ApplicationUser>(db);
+
+            var manager = new UserManager<ApplicationUser>(store);
+
+            ApplicationUser test = new ApplicationUser();
+            test.Email = "test@tt.tt";
+            test.UserName = "test";
+
+            manager.Create(test, "test");
+            manager.AddToRole(test.Id, "test");
+
+            base.Seed(db);
+        }
+        
+    }
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        //static ApplicationDbContext()
+        //{
+        //    Database.SetInitializer<ApplicationDbContext>(new ToDoContextInitialiser());
+        //}
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

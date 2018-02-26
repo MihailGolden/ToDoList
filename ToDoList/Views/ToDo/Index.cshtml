@@ -1,33 +1,167 @@
-﻿@model IEnumerable<ToDoList.Models.Project>
+﻿@using Microsoft.AspNet.Identity
 
-@{
-    ViewBag.Title = "Index";
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, user-scalable=no">
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jshelpers")
+    @Styles.Render("~/Content/css")
+    @*<script src="~/Scripts/jquery-1.10.2.intellisense.js"></script>*@
+    <title>ToDo list</title>
+</head>
+<body>
+    <header>
+        <h1>ToDo list</h1>
+    </header>
+    <h2>Handelbars</h2>
 
-<h2>Index</h2>
+    <h3>Templates</h3><br />
+    <script id="address-template" type="text/x-handelbars-template">
+        <p>You can find me in {{city}}. My address is {{number}} {{street}}.</p>
+    </script>
+    <script>
+        $(function () {
+            let context = {
+                city: "NY",
+                number: "34",
+                street: "Fuck"
+            }
+            let theTemplateScript = $("#address-template").html();
+            let theTemplate = Handlebars.compile(theTemplateScript);
+            let theCompiledHtml = theTemplate(context);
+            $(".content-placeholder-template").html(theCompiledHtml);
+        });
+    </script>
+    <div class="content-placeholder-template"></div>
+    <hr />
+    <h3>Expressions</h3>
+    <br />
+    <script id="expressions-template" type="text/handlebars-template">
+        {{description.escaped}}
+        {{example}}
+        <br />
+        {{description.unescaped}}
+        {{{example}}}
+    </script>
+    <script>
+        $(function () {
+            let context = {
+                description: {
+                    'escaped': 'Using {{}} brackets will result in escaped HTML:',
+                    'unescaped': 'Using {{{}}} will leave the context as it is:'
+                },
+                'example': '<button>Hello!</button>'
+            };
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
+            let theTemplateScript = $('#expressions-template').html();
+            let theTemplate = Handlebars.compile(theTemplateScript);
+            let theCompiledHtml = theTemplate(context);
+            $('.content-placeholder-expression').html(theCompiledHtml);
+        });
+    </script>
+    <div class="content-placeholder-expression"></div>
+    <hr />
+    <h3>Context</h3>
+    <br />
+    <div class="r"></div>
+    <script id="example-template" type="text/handlebars-template">
+        {{#each people}}
+        <p>{{firstName}} {{lastName}}</p>
+        {{/each}}
+    </script>
+    <script>
+        $(function () {
+            let context = {
+                people: [
+                    { firstName: "Homer", lastName: "Simpson" },
+                    { firstName: 'Peter', lastName: 'Griffin' },
+                    { firstName: 'Eric', lastName: 'Cartman' },
+                    { firstName: 'Kenny', lastName: 'McCormick' },
+                    { firstName: 'Bart', lastName: 'Simpson' }
+                ]
+            };
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+            let theTemplateScript = $('#example-template').html();
+            let theTemplate = Handlebars.compile(theTemplateScript);
+            let theCompiledHtml = theTemplate(context);
+            $('.r').html(theCompiledHtml);
+        });
+    </script>
+    <hr />
+    <h3>Helpers</h3>
+    <script>
+        $(function () {
 
-</table>
+            // Register a helper
+            Handlebars.registerHelper('capitalize', function (str) {
+                // str is the argument passed to the helper when called
+                str = str || '';
+                return str.slice(0, 1).toUpperCase() + str.slice(1);
+            });
+
+            // Grab the template script
+            var theTemplateScript = $("#built-in-helpers-template").html();
+
+            // Compile the template
+            var theTemplate = Handlebars.compile(theTemplateScript);
+
+            // We will call this template on an array of objects
+            var context = {
+                animals: [
+                    {
+                        name: "cow",
+                        noise: "moooo"
+                    },
+                    {
+                        name: "cat",
+                        noise: "meow"
+                    },
+                    {
+                        name: "fish",
+                        noise: ""
+                    },
+                    {
+                        name: "farmer",
+                        noise: "Get off my property!"
+                    }
+                ]
+            };
+
+            // Pass our data to the template
+            var theCompiledHtml = theTemplate(context);
+
+            // Add the compiled html to the page
+            $('.helpers-placeholder').html(theCompiledHtml);
+
+        });
+    </script>
+    <script id="built-in-helpers-template" type="text/x-handlebars-template">
+        {{#each animals}}
+        <p>
+            The {{capitalize this.name}} says
+            {{#if this.noise}}
+            "{{this.noise}}".
+            {{else}}
+            nothing since its a {{this.name}}.
+            {{/if}}
+        </p>
+        {{/each}}
+    </script>
+    <div class="helpers-placeholder"></div>
+
+
+
+
+
+    <footer class="modal-footer">
+        <p>@@Ruby Garage</p>
+    </footer>
+
+</body>
+</html>
