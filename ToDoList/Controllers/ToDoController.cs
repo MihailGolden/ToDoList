@@ -17,24 +17,29 @@ namespace ToDoList.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        //ok
         // GET: ToDo
         public ActionResult  Index()
         {
-            //var userId = User.Identity.GetUserId();
-            //ApplicationUser user = db.Users.FirstOrDefault(x => x.Id == userId);
             return View();
         }
 
+        //ok
         public JsonResult Add()
         {
             var userId = User.Identity.GetUserId();
             ApplicationUser user = db.Users.FirstOrDefault(x => x.Id == userId);
-            Project project = new Project() { Name = "New project", User = user };
+            int projectCount = db.Projects.Where(p => p.User.Id == userId).Count();
+            string projectName = $"New project {Convert.ToString(projectCount + 1)}";
+
+            Project project = new Project() { Name = projectName, User = user };
             db.Projects.Add(project);
             db.SaveChanges();
             return Json(project);
+           // return View("Index");
         }
 
+        //ok
         [HttpPost]
         public JsonResult Delete(int id)
         {
@@ -56,6 +61,7 @@ namespace ToDoList.Controllers
             }
         }
 
+        //ok
         [HttpPost]
         public JsonResult Update(int id, string name)
         {
@@ -82,6 +88,7 @@ namespace ToDoList.Controllers
             IEnumerable<Project> projects = db.Projects.Include(p => p.JobTasks).ToList().Where(p => p.User == user);
             foreach(Project proj in projects)
             {
+                
                 proj.JobTasks.OrderBy(j => j.Priority).ToList();
             }
             return Json(projects, JsonRequestBehavior.AllowGet);

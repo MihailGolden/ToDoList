@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@{ 
+@{
     ViewBag.Title = "My ToDo lists";
 }
 <header class="container">
@@ -17,8 +17,118 @@
 
 <div class="row" id="AddList">
     <div class="col-md-2 col-md-offset-5 AddList">
-        <button onclick="displayData()" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-plus addaspn"></span> Add TODO List </button>
+        <button onclick="addProject()" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-plus addaspn"></span> Add TODO List </button>
 
     </div>
 </div>
 
+
+<script id="ListTemplate" type="text/x-handlebars-template">
+    <div class="todolist clearfix" data-todo="{{ListId}}">
+        <div class="ListContainer" data-list="{{sdf}}">
+            <div class="container col-xs-12 col-md-offset-2 col-md-8 list">
+                <div class="row">
+                    <div class="col-xs-1">
+                        <span class="glyphicon glyphicon-list"></span>
+                    </div>
+                    <div class="col-xs-9 doubleclicklist">
+                        <input class="ListName" id="{{ListId}}" value="{{ListName}}" disabled />
+                    </div>
+                    <div class="list-options">
+                        <div class="col-xs-1 border">
+                            <span id="{{ListId}}" onclick="deleteList(this.id)" class="glyphicon glyphicon-trash list-trash"></span>
+                        </div>
+                        <div class="col-xs-1">
+                            <span id="{{ListId}}" onclick="updateList(this.id)" class="glyphicon glyphicon-pencil list-pencil"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container col-xs-12 col-md-offset-2 col-md-8 addtask">
+                <div class="row">
+                    <div class="col-xs-1">
+                        <span class="glyphicon glyphicon-plus list-plus"></span>
+                    </div>
+                    <div class="col-xs-9 form">
+                        <input id="{{ListId}}" type="text" class="form-control AddTaskName" name="Name" placeholder="Start typing here to create a task..">
+                    </div>
+                    <div class="col-xs-2">
+                        <button id="{{ListId}}" name="submit" onclick="displayTask(this.id)" type="submit" class="btn btn-success AddTask" value="Add task">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
+
+
+
+
+
+<script id="TaskTemplate" type="text/x-handlebars-template">
+    <div data-task="{{TaskId}}" data-priority="{{Priority}}" class="container col-xs-12 col-md-offset-2 col-md-8 task mix">
+        <div class="row">
+            <div class="col-xs-1 checked">
+                <label><input data-check="{{TaskId}}" class="checkbox" id="{{TaskId}}" onclick="isChecked(this.id, this)" type="checkbox"></label>
+            </div>
+            <div class="col-xs-6 doubleclick">
+
+                <input class="TaskName" value="{{TaskName}}" disabled />
+
+            </div>
+            <div class="col-xs-3 deadline-box">
+                <input class="date" id="{{TaskId}}" type="text" data-picker="{{TaskId}}">
+            </div>
+            <div class="col-xs-2 task-options">
+                <table>
+                    <tr>
+                        <td class="priority">
+                            <div class="priority2">
+                                <button id="{{TaskId}}" onclick="priority({{ListId}}, {{TaskId}}, 1)" class="priority-button-up">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </button>
+                                <button id="{{TaskId}}" onclick="priority({{ListId}}, {{TaskId}}, -1)" class="priority-button-down">
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <button id="{{TaskId}}" onclick="deleteTask(this.id)" class="task-trash-button">
+                                <span class="glyphicon glyphicon-trash task-trash"></span>
+                            </button>
+                        </td>
+                        <td>
+                            <button id="{{TaskId}}" onclick="updateTask(this.id)" class="task-pencil-button">
+                                <span class="glyphicon glyphicon-pencil task-pencil"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<div class="container">
+    <div class="controls">
+        <button type="button" data-filter="all">All</button>
+        <button type="button" data-filter=".category-a">Category A</button>
+        <button type="button" data-filter=".category-b">Category B</button>
+        <button type="button" data-filter=".category-c">Category C</button>
+        <hr />
+        <button type="button" data-sort="order:asc">Ascending</button>
+        <button type="button" data-sort="order:descending">Descending</button>
+        <button type="button" data-sort="random">Random</button>
+    </div>
+    <div class="targets">
+        <div class="mix category-a" data-order="1">mix category-a</div>
+        <div class="mix category-b" data-order="2">mix category-b</div>
+        <div class="mix category-b category-c" data-order="3">mix category-b category-c</div>
+        <div class="mix category-a category-b" data-order="4">mix category-a category-b</div>
+    </div>
+</div>
+<script src="~/Scripts/mixitup.js"></script>

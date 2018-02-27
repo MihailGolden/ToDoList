@@ -2,11 +2,11 @@
 
 
     var t = Handlebars.compile($('#ListTemplate').html());
-    $.get("/List/Render", function (data, status, xhr) {
+    $.get("/ToDo/Render", function (data, status, xhr) {
         for (var i = 0; i < data.length; i++) {
             $("#AddList").before(t(data[i]));
-            for (var j = 0; j < data[i].Tasks.length; j++) {
-                createTask(data[i].Tasks[j]);
+            for (var j = 0; j < data[i].JobTasks.length; j++) {
+                createTask(data[i].JobTasks[j]);
             }
             $('[data-todo="' + data[i].ListId + '"]').mixItUp({ layout: { display: 'block' } });
 
@@ -25,9 +25,9 @@
 
 });
 
-function displayData() {
+function addProject() {
     $.ajax({
-        url: '/List/Add',
+        url: '/ToDo/Add',
         type: 'POST',
         success: function (data) {
             createList(data);
@@ -59,7 +59,7 @@ function createList(data) {
 
 function deleteList(id) {
     $.ajax({
-        url: '/List/Delete',
+        url: '/ToDo/Delete',
         data: { id: id },
         type: 'POST',
         success: function (data) {
@@ -117,7 +117,7 @@ function displayTask(id) {
 
     else {
         $.ajax({
-            url: '/Task/Add',
+            url: '/JobTask/Add',
             data: {
                 id: id,
                 name: TaskName
@@ -173,7 +173,7 @@ function createTask(data) {
 }
 function deleteTask(id) {
     $.ajax({
-        url: '/Task/Delete',
+        url: '/JobTask/Delete',
         data: {
             id: id
         },
@@ -209,7 +209,7 @@ function updateTask(id) {
             else {
                 taskName.prop("disabled", true);
                 $.ajax({
-                    url: '/Task/Update',
+                    url: '/JobTask/Update',
                     type: 'POST',
                     data: {
                         id: id,
@@ -235,7 +235,7 @@ function isChecked(id, checkbox) {
         taskName.css("text-decoration", "none");
     }
     $.ajax({
-        url: '/Task/Check',
+        url: '/JobTask/Check',
         method: 'POST',
         data: {
             "id": id,
@@ -249,7 +249,7 @@ function isChecked(id, checkbox) {
 }
 function setDate(id, date) {
     $.ajax({
-        url: '/Task/SetDate',
+        url: '/JobTask/SetDate',
         data: {
             "id": id,
             "date": date
@@ -264,7 +264,7 @@ function setDate(id, date) {
 function priority(listId, taskId, type) {
     var currentPriority = $('[data-task=' + taskId + ']').attr('data-priority');
     $.ajax({
-        url: '/Task/Priority',
+        url: '/JobTask/Priority',
         type: 'POST',
         data: {
             ListId: listId,

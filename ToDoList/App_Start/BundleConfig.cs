@@ -22,7 +22,8 @@ namespace ToDoList
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/bootstrap-datetimepicker.js",
-                      "~/Scripts/moment.js"
+                      "~/Scripts/moment.js",
+                      "~/Scripts/JavaScript.js"
                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/jshelpers").Include(
