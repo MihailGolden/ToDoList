@@ -1,0 +1,7 @@
+﻿16:00 Todo & JobTask - all CRUDS
+20:00 UI  - HTML & CSS
+24:00 UI - will be able to work
+
+08:00-10:00 - frontend tests
+11:00-14:00 - UI tests
+15:00-18:00 - hosting deploing

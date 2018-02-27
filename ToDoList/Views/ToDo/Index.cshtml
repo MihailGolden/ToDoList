@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@{ 
+    ViewBag.Title = "My ToDo lists";
+}
 <header class="container">
     <div class="row">
         <div class="col text-center">
@@ -12,4 +14,11 @@
         </div>
     </div>
 </header>
+
+<div class="row" id="AddList">
+    <div class="col-md-2 col-md-offset-5 AddList">
+        <button onclick="displayData()" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-plus addaspn"></span> Add TODO List </button>
+
+    </div>
+</div>
 

@@ -18,146 +18,82 @@ namespace ToDoList.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ToDo
-        public ActionResult Index()
+        public ActionResult  Index()
         {
-            
-            //var users = db.Users.First().ToString();
-            //return users;
+            //var userId = User.Identity.GetUserId();
+            //ApplicationUser user = db.Users.FirstOrDefault(x => x.Id == userId);
             return View();
+        }
+
+        public JsonResult Add()
+        {
+            var userId = User.Identity.GetUserId();
+            ApplicationUser user = db.Users.FirstOrDefault(x => x.Id == userId);
+            Project project = new Project() { Name = "New project", User = user };
+            db.Projects.Add(project);
+            db.SaveChanges();
+            return Json(project);
+        }
+
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            if(id == 0)
+            {
+                return Json(new { error = "Error" });
+            }
+            else
+            {
+                Project project = db.Projects.Where(p => p.Id == id).FirstOrDefault();
+                    if(project == null)
+                    {
+                        return Json(new { error = "Error" });
+                    }
+                //db.Projects.Remove(project);
+                db.Entry(project).State = EntityState.Deleted;
+                db.SaveChanges();
+                return Json(new { id = project.Id });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Update(int id, string name)
+        {
+                if (name == null || id == 0)
+                {
+                    return Json(new { error = "Error" });
+                }
+            Project project = db.Projects.Where(p => p.Id == id).FirstOrDefault();
+                if(project == null)
+                {
+                    return Json(new { error = "Error" });
+                }
+            project.Name = name;
+            db.Entry(project).State = EntityState.Modified;
+            db.SaveChanges();
+            return Json(new { status = "Ok" });
         }
 
         [HttpGet]
-        //public JsonResult Render()
+        public JsonResult Render()
+        {
+            var userId = User.Identity.GetUserId();
+            ApplicationUser user = db.Users.FirstOrDefault(x => x.Id == userId);
+            IEnumerable<Project> projects = db.Projects.Include(p => p.JobTasks).ToList().Where(p => p.User == user);
+            foreach(Project proj in projects)
+            {
+                proj.JobTasks.OrderBy(j => j.Priority).ToList();
+            }
+            return Json(projects, JsonRequestBehavior.AllowGet);
+        }
+
+        //protected override void Dispose(bool disposing)
         //{
-        //    //string userId = User.Identity.GetUserId();
-        //    //ApplicationUser user = db.Users.FirstOrDefault(u => u.Id == userId);
-        //    //IEnumerable<Project> projectsList = db.Projects.Include(p => p.JobTasks).ToList().Where(u => u.User == user);
-        //    //foreach (Project project in projectsList)
-        //    //{
-        //    //    project.JobTasks = project.JobTasks.OrderBy(j => j.Priority).ToList();
-        //    //}
-        //    return Json(projectsList, JsonRequestBehavior.AllowGet);
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
         //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // GET: ToDo/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
-        }
-
-        // GET: ToDo/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ToDo/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name")] Project project)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Projects.Add(project);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            return View(project);
-        }
-
-        // GET: ToDo/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
-        }
-
-        // POST: ToDo/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name")] Project project)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(project).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(project);
-        }
-
-        // GET: ToDo/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
-        }
-
-        // POST: ToDo/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Project project = await db.Projects.FindAsync(id);
-            db.Projects.Remove(project);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
