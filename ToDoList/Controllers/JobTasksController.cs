@@ -16,7 +16,7 @@ namespace ToDoList.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpPost]
-        public ActionResult Add(int projectId, string name)
+        public JsonResult Add(int projectId, string name)
         {
             var tempTask = db.JobTasks.Where(t => t.ProjectId == projectId).OrderByDescending(t => t.Priority).FirstOrDefault();
             int priority;
@@ -34,17 +34,57 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
-        public void Update(int taskId, string name)
+        public JsonResult Update(int taskId, string name)
         {
+            if(taskId == 0 || name == null)
+            {
+                return Json(new { error = "Error" });
+            }
             JobTask task = db.JobTasks.Where(t => t.Id == taskId).FirstOrDefault();
             task.Name = name;
+            db.SaveChanges();
+            return Json(new { status = "Ok" });
+        }
+
+
+        [HttpPost]
+        public JsonResult Delete(int taskId)
+        {
+            if( taskId == 0)
+            {
+                return Json(new { error = "Error" });
+            }
+            else
+            {
+                JobTask task = db.JobTasks.Where(t => t.Id == taskId).FirstOrDefault();
+                db.Entry(task).State = EntityState.Deleted;
+                db.SaveChanges();
+            }
+            return Json(new { id = taskId });
         }
 
         [HttpPost]
-        public ActionResult Delete(int taskId)
+        public void Check(int taskId, bool done)
         {
+            JobTask task = db.JobTasks.Where(t => t.Id == taskId).FirstOrDefault();
+            task.Status = done;
+            db.Entry(task).State = EntityState.Modified;
+            db.SaveChanges();
+        }
 
-            return View("Index", "ToDo");
+        public void SetDate(int taskId, string date)
+        {
+            DateTime? deadline = (date == "") ? (DateTime?)null : DateTime.Parse(date);
+            JobTask task = db.JobTasks.Where(t => t.Id == taskId).FirstOrDefault();
+            task.Deadline = deadline;
+            db.Entry(task).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public JsonResult Priority(Priority model)
+        {
+            //create latter
+            return null;
         }
 
 
@@ -52,121 +92,13 @@ namespace ToDoList.Controllers
 
 
 
-
-
-        //// GET: JobTasks
-        //public async Task<ActionResult> Index()
+        //protected override void Dispose(bool disposing)
         //{
-        //    var tasks = db.JobTasks.Include(j => j.Project);
-        //    return View(await tasks.ToListAsync());
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
         //}
-
-        // GET: JobTasks/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            JobTask jobTask = await db.JobTasks.FindAsync(id);
-            if (jobTask == null)
-            {
-                return HttpNotFound();
-            }
-            return View(jobTask);
-        }
-
-        // GET: JobTasks/Create
-        public ActionResult Create()
-        {
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
-            return View();
-        }
-
-        // POST: JobTasks/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Status,ProjectId")] JobTask jobTask)
-        {
-            if (ModelState.IsValid)
-            {
-                db.JobTasks.Add(jobTask);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", jobTask.ProjectId);
-            return View(jobTask);
-        }
-
-        // GET: JobTasks/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            JobTask jobTask = await db.JobTasks.FindAsync(id);
-            if (jobTask == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", jobTask.ProjectId);
-            return View(jobTask);
-        }
-
-        // POST: JobTasks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Status,ProjectId")] JobTask jobTask)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(jobTask).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", jobTask.ProjectId);
-            return View(jobTask);
-        }
-
-        // GET: JobTasks/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            JobTask jobTask = await db.JobTasks.FindAsync(id);
-            if (jobTask == null)
-            {
-                return HttpNotFound();
-            }
-            return View(jobTask);
-        }
-
-        // POST: JobTasks/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            JobTask jobTask = await db.JobTasks.FindAsync(id);
-            db.JobTasks.Remove(jobTask);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
