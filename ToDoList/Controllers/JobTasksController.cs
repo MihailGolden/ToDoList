@@ -89,11 +89,66 @@ namespace ToDoList.Controllers
             db.SaveChanges();
         }
 
-
-        public JsonResult Priority(Priority model)
+        [HttpPost]
+        public ActionResult Priority(Priority model)
         {
-            //create latter
-            return null;
+            switch (model.Change)
+            {
+                case Models.Change.Up:
+                    var target = db.JobTasks
+                        .Where(t => t.Id == model.ProjectId && t.Priority < model.CurrentPriority)
+                        .OrderByDescending(t => t.Priority)
+                        .Select(t => new
+                        {
+                            targetId = t.Id,
+                            targetPriority = t.Priority
+                        })
+                        .FirstOrDefault();
+                    if (target != null)
+                    {
+                        model.TargetId = target.targetId;
+                        model.TargetPriority = target.targetPriority;
+                    }
+                    else { return Json(new { error = "Error" }); }
+                    break;
+                case Models.Change.Down:
+                    target = db.JobTasks
+                        .Where(t => t.Id == model.ProjectId && t.Priority > model.CurrentPriority)
+                        .OrderBy(t => t.Priority)
+                        .Select(t => new
+                        {
+                            targetId = t.Id,
+                            targetPriority = t.Priority
+                        })
+                        .FirstOrDefault();
+                    if (target != null)
+                    {
+                        model.TargetId = target.targetId;
+                        model.TargetPriority = target.targetPriority;
+                    }
+                    else { return Json(new { error = "Error" }); }
+                    break;
+            }
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    JobTask currentTask = new JobTask { Id = model.CurrentId, Priority = model.TargetPriority };
+                    JobTask targetTask = new JobTask { Id = model.TargetId, Priority = model.CurrentPriority };
+                    db.JobTasks.Attach(currentTask);
+                    db.JobTasks.Attach(targetTask);
+                    db.Entry(currentTask).Property(ct => ct.Priority).IsModified = true;
+                    db.Entry(targetTask).Property(tt => tt.Priority).IsModified = true;
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    return Json(new { error = "Error!" });
+                }
+            }
+            return Json(model);
         }
 
 
