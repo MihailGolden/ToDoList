@@ -80,8 +80,9 @@ namespace ToDoList.Controllers
             return Json(new { status = "Ok" });
         }
 
+        //ok
         [HttpGet]
-        public JsonResult Render()
+        public JsonResult ShowAll()
         {
             var userId = User.Identity.GetUserId();
             ApplicationUser user = db.Users.FirstOrDefault(x => x.Id == userId);

@@ -1,16 +1,14 @@
 ﻿$(function () {
-
-
-    var t = Handlebars.compile($('#ListTemplate').html());
-    $.get("/ToDo/Render", function (data, status, xhr) {
-        for (var i = 0; i < data.length; i++) {
-            $("#AddList").before(t(data[i]));
-            for (var j = 0; j < data[i].JobTasks.length; j++) {
+    let theCompiledTemplete = Handlebars.compile($('#ProjectTemplate').html());
+    $.get("/ToDo/ShowAll", function (data, status, xhr) {
+        for (let i = 0; i < data.length; i++) {
+            $("#AddList").before(theCompiledTemplete(data[i]));
+            for (let j = 0; j < data[i].JobTasks.length; j++) {
                 createTask(data[i].JobTasks[j]);
             }
             $('[data-todo="' + data[i].ListId + '"]').mixItUp({ layout: { display: 'block' } });
 
-            var list = data[i].ListId;
+            let list = data[i].ListId;
 
             $('[data-list=' + data[i].ListId + ']').find(".AddTaskName").keydown(function (eventObject) {
                 if (event.keyCode == 13) {
@@ -22,8 +20,9 @@
             });
         }
     });
-
 });
+
+
 
 function addProject() {
     $.ajax({
@@ -40,7 +39,7 @@ function addProject() {
 }
 
 function createList(data) {
-    var t = Handlebars.compile($('#ListTemplate').html());
+    let t = Handlebars.compile($('#ProjectTemplate').html());
     $("#AddList").before(t(data));
     $('[data-list=' + data.ListId + ']').css("display", "none");
     $('[data-list=' + data.ListId + ']').slideDown();
@@ -74,8 +73,8 @@ function deleteList(id) {
 function updateList(id) {
     $('[data-list=' + id + ']').find('.ListName').prop("disabled", false);
 
-    var listName = $('[data-list=' + id + ']').find('.ListName');
-    var currentName = listName.val();
+    let listName = $('[data-list=' + id + ']').find('.ListName');
+    let currentName = listName.val();
 
     listName.prop("disabled", false).focus();
     listName.prop({
@@ -85,7 +84,7 @@ function updateList(id) {
     listName.keydown(function (eventObject) {
         if (event.keyCode == 13) {
 
-            var newName = listName.val();
+            let newName = listName.val();
 
             if (newName == "") {
                 alert("empty!");
@@ -108,7 +107,7 @@ function updateList(id) {
 
 }
 function displayTask(id) {
-    var TaskName = $('[data-list=' + id + ']').find('.AddTaskName').val();
+    let TaskName = $('[data-list=' + id + ']').find('.AddTaskName').val();
 
     if (TaskName == "") {
         alert("empty!");
@@ -135,7 +134,7 @@ function displayTask(id) {
 }
 function createTask(data) {
 
-    var t = Handlebars.compile($('#TaskTemplate').html());
+    let t = Handlebars.compile($('#TaskTemplate').html());
 
     $('[data-todo=' + data.ListId + ']').append(t(data));
     $('[data-picker=' + data.TaskId + ']').datepicker({
@@ -145,17 +144,17 @@ function createTask(data) {
         format: "mm/dd/yyyy"
     });
     $('[data-picker=' + data.TaskId + ']').datepicker().on('changeDate', function (e) {
-        var deadline = $('[data-picker=' + data.TaskId + ']').val()
+        let deadline = $('[data-picker=' + data.TaskId + ']').val()
         setDate(data.TaskId, deadline);
     });
     if (data.DeadLine == null) {
         $('[data-picker=' + data.TaskId + ']').val("");
     } else {
-        var date = new Date(parseInt(data.DeadLine.substr(6)));
-        var Year = date.getFullYear();
-        var Month = date.getMonth() + 1;
+        let date = new Date(parseInt(data.DeadLine.substr(6)));
+        let Year = date.getFullYear();
+        let Month = date.getMonth() + 1;
         Month = Month > 9 ? Month : "0" + Month;
-        var Day = date.getDate();
+        let Day = date.getDate();
         Day = Day > 9 ? Day : "0" + Day;
         $('[data-picker=' + data.TaskId + ']').val(Month + "/" + Day + "/" + Year);
     }
@@ -189,8 +188,8 @@ function deleteTask(id) {
 }
 
 function updateTask(id) {
-    var taskName = $('[data-task=' + id + ']').find('.TaskName');
-    var currentName = taskName.val();
+    let taskName = $('[data-task=' + id + ']').find('.TaskName');
+    let currentName = taskName.val();
 
     taskName.prop("disabled", false).focus();
 
@@ -201,7 +200,7 @@ function updateTask(id) {
     taskName.keydown(function (eventObject) {
         if (event.keyCode == 13) {
 
-            var newName = taskName.val();
+            let newName = taskName.val();
             if (newName == "") {
                 alert("empty!");
                 event.preventDefault();
@@ -225,8 +224,8 @@ function updateTask(id) {
 }
 function isChecked(id, checkbox) {
 
-    var taskName = $('[data-task=' + id + ']').find('.TaskName');
-    var done = checkbox.checked;
+    let taskName = $('[data-task=' + id + ']').find('.TaskName');
+    let done = checkbox.checked;
 
     if (done == true) {
         taskName.css("text-decoration", "line-through");
@@ -262,7 +261,7 @@ function setDate(id, date) {
 }
 
 function priority(listId, taskId, type) {
-    var currentPriority = $('[data-task=' + taskId + ']').attr('data-priority');
+    let currentPriority = $('[data-task=' + taskId + ']').attr('data-priority');
     $.ajax({
         url: '/JobTask/Priority',
         type: 'POST',

@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "My ToDo lists";
 }
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
 <header class="container">
     <div class="row">
         <div class="col text-center">
@@ -15,15 +21,16 @@
     </div>
 </header>
 
-<div class="row" id="AddList">
-    <div class="col-md-2 col-md-offset-5 AddList">
-        <button onclick="addProject()" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-plus addaspn"></span> Add TODO List </button>
-
+<div class="container">
+    <div class="row" id="AddList">
+        <div class="AddList col-md-12 text-center">
+            <button onclick="addProject()" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-plus addaspn"></span> Add TODO List </button>
+        </div>
     </div>
 </div>
 
 
-<script id="ListTemplate" type="text/x-handlebars-template">
+<script id="ProjectTemplate" type="text/x-handlebars-template">
     <div class="todolist clearfix" data-todo="{{ListId}}">
         <div class="ListContainer" data-list="{{sdf}}">
             <div class="container col-xs-12 col-md-offset-2 col-md-8 list">
@@ -113,22 +120,22 @@
 </script>
 
 
-<div class="container">
-    <div class="controls">
-        <button type="button" data-filter="all">All</button>
-        <button type="button" data-filter=".category-a">Category A</button>
-        <button type="button" data-filter=".category-b">Category B</button>
-        <button type="button" data-filter=".category-c">Category C</button>
-        <hr />
-        <button type="button" data-sort="order:asc">Ascending</button>
-        <button type="button" data-sort="order:descending">Descending</button>
-        <button type="button" data-sort="random">Random</button>
+@*<div class="container">
+        <div class="controls">
+            <button type="button" data-filter="all">All</button>
+            <button type="button" data-filter=".category-a">Category A</button>
+            <button type="button" data-filter=".category-b">Category B</button>
+            <button type="button" data-filter=".category-c">Category C</button>
+            <hr />
+            <button type="button" data-sort="order:asc">Ascending</button>
+            <button type="button" data-sort="order:descending">Descending</button>
+            <button type="button" data-sort="random">Random</button>
+        </div>
+        <div class="targets">
+            <div class="mix category-a" data-order="1">mix category-a</div>
+            <div class="mix category-b" data-order="2">mix category-b</div>
+            <div class="mix category-b category-c" data-order="3">mix category-b category-c</div>
+            <div class="mix category-a category-b" data-order="4">mix category-a category-b</div>
+        </div>
     </div>
-    <div class="targets">
-        <div class="mix category-a" data-order="1">mix category-a</div>
-        <div class="mix category-b" data-order="2">mix category-b</div>
-        <div class="mix category-b category-c" data-order="3">mix category-b category-c</div>
-        <div class="mix category-a category-b" data-order="4">mix category-a category-b</div>
-    </div>
-</div>
-<script src="~/Scripts/mixitup.js"></script>
+    <script src="~/Scripts/mixitup.js"></script>*@

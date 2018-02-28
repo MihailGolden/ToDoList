@@ -17,7 +17,8 @@ namespace ToDoList.Models
 
         public virtual ICollection<JobTask> JobTasks { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
+        [ScriptIgnore]
+        public  ApplicationUser User { get; set; }
 
         public Project()
         {

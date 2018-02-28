@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace ToDoList.Models
 {
@@ -25,6 +26,7 @@ namespace ToDoList.Models
 
         public int ProjectId { get; set; }
 
+        [ScriptIgnore]
         public virtual Project Project { get; set; }
     }
 

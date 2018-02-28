@@ -15,6 +15,7 @@ namespace ToDoList.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        //ok
         [HttpPost]
         public JsonResult Add(int projectId, string name)
         {
@@ -30,9 +31,12 @@ namespace ToDoList.Controllers
             }
             JobTask task = new JobTask { Name = name, ProjectId = projectId, Priority = priority };
             db.JobTasks.Add(task);
+            db.SaveChanges();
             return Json(task);
         }
 
+
+        //ok
         [HttpPost]
         public JsonResult Update(int taskId, string name)
         {
@@ -47,6 +51,7 @@ namespace ToDoList.Controllers
         }
 
 
+        //ok
         [HttpPost]
         public JsonResult Delete(int taskId)
         {
@@ -63,6 +68,7 @@ namespace ToDoList.Controllers
             return Json(new { id = taskId });
         }
 
+        //ok
         [HttpPost]
         public void Check(int taskId, bool done)
         {
@@ -72,6 +78,8 @@ namespace ToDoList.Controllers
             db.SaveChanges();
         }
 
+        //ok
+        [HttpPost]
         public void SetDate(int taskId, string date)
         {
             DateTime? deadline = (date == "") ? (DateTime?)null : DateTime.Parse(date);
@@ -80,6 +88,7 @@ namespace ToDoList.Controllers
             db.Entry(task).State = EntityState.Modified;
             db.SaveChanges();
         }
+
 
         public JsonResult Priority(Priority model)
         {
