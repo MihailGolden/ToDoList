@@ -221,6 +221,10 @@
     <Compile Include="Migrations\201802221820215_MigrateDB.Designer.cs">
       <DependentUpon>201802221820215_MigrateDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802281052259_DbMigrationChangeTablesNAmes.cs" />
+    <Compile Include="Migrations\201802281052259_DbMigrationChangeTablesNAmes.Designer.cs">
+      <DependentUpon>201802281052259_DbMigrationChangeTablesNAmes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -364,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802221820215_MigrateDB.resx">
       <DependentUpon>201802221820215_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802281052259_DbMigrationChangeTablesNAmes.resx">
+      <DependentUpon>201802281052259_DbMigrationChangeTablesNAmes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
